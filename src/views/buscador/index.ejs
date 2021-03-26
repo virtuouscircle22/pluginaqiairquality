@@ -1,0 +1,26 @@
+<!Doctype html>
+<html lang="en">
+<!-- Creado por María Vico Martín en 2ºASIR del IES Punta del verde de Sevilla -->
+<head>
+    <title>Buscador</title>
+    <%- include('../partials/_head'); -%>
+</head>
+<body>
+    <header>
+        <%- include('../partials/_header'); -%>
+    </header>
+    <main>
+        <div class="row">
+            <div class="col-sm-6" style="display: inline-block; padding: 30px 50px">
+                <h2>URL Calidad del Aire </h2>
+                <br/>
+                <h5> Introduce el nombre de la estación:</h5>
+                    <input id='input-station' class="form-control" type="text" placeholder="por ejemplo: 'Bermejales'" onkeyup="search()"> <br/>
+                    <!-- Salida de la función jQuery-->
+                    <div class="output" ></div>
+            </div>
+        </div>
+    </main>
+    <script src="/js/helpers.js"></script>   
+</body>
+</html>

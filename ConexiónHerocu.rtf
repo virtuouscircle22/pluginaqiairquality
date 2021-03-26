@@ -1,0 +1,183 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang3082{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+{\colortbl ;\red0\green0\blue255;}
+{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\f0\fs22\lang10 Windows PowerShell\par
+Copyright (C) Microsoft Corporation. Todos los derechos reservados.\par
+\par
+Prueba la nueva tecnolog\'eda PowerShell multiplataforma {{\field{\*\fldinst{HYPERLINK https://aka.ms/pscore6 }}{\fldrslt{https://aka.ms/pscore6\ul0\cf0}}}}\f0\fs22\par
+\par
+PS C:\\Users\\Administrador> heroku login\par
+heroku: Press any key to open up the browser to login or q to exit:\par
+Opening browser to {{\field{\*\fldinst{HYPERLINK https://cli-auth.heroku.com/auth/cli/browser/e599f84f-6e17-424f-a52e-363c5d3e8459?requestor=SFMyNTY.g2gDbQAAAA0xODUuMTk3Ljg4LjIxbgYAHutS_HcBYgABUYA.asmlJcwrA9BmZMWkMw93ZYEWJRIz-rLCTHvz9JJXvr0 }}{\fldrslt{https://cli-auth.heroku.com/auth/cli/browser/e599f84f-6e17-424f-a52e-363c5d3e8459?requestor=SFMyNTY.g2gDbQAAAA0xODUuMTk3Ljg4LjIxbgYAHutS_HcBYgABUYA.asmlJcwrA9BmZMWkMw93ZYEWJRIz-rLCTHvz9JJXvr0\ul0\cf0}}}}\f0\fs22\par
+Logging in... done\par
+Logged in as virtuouscircle@iespuntadelverde.es\par
+PS C:\\Users\\Administrador> cd C:\\Users\\Administrador\\Documents\\Jesus\\2021\par
+PS C:\\Users\\Administrador\\Documents\\Jesus\\2021> heroku git:clone -a pluginaqiairquality\par
+Cloning into 'pluginaqiairquality'...\par
+remote: Counting objects: 192, done.\par
+remote: Compressing objects: 100% (158/158), done.\par
+Receiving objects:  38% (73/192), 2.43 MiB | 1.14 MiB/s 0 (delta 0)\par
+Receiving objects: 100% (192/192), 2.71 MiB | 1.16 MiB/s, done.\par
+Resolving deltas: 100% (78/78), done.\par
+PS C:\\Users\\Administrador\\Documents\\Jesus\\2021> node --version\par
+v10.16.0\par
+PS C:\\Users\\Administrador\\Documents\\Jesus\\2021> cd .\\pluginaqiairquality\\\par
+PS C:\\Users\\Administrador\\Documents\\Jesus\\2021\\pluginaqiairquality> npm install\par
+\par
+> core-js@3.6.5 postinstall C:\\Users\\Administrador\\Documents\\Jesus\\2021\\pluginaqiairquality\\node_modules\\@babel\\node\\node_modules\\core-js\par
+> node -e "try\{require('./postinstall')\}catch(e)\{\}"\par
+\par
+Thank you for using core-js ( {{\field{\*\fldinst{HYPERLINK https://github.com/zloirock/core-js }}{\fldrslt{https://github.com/zloirock/core-js\ul0\cf0}}}}\f0\fs22  ) for polyfilling JavaScript standard library!\par
+\par
+The project needs your help! Please consider supporting of core-js on Open Collective or Patreon:\par
+> {{\field{\*\fldinst{HYPERLINK https://opencollective.com/core-js }}{\fldrslt{https://opencollective.com/core-js\ul0\cf0}}}}\f0\fs22\par
+> {{\field{\*\fldinst{HYPERLINK https://www.patreon.com/zloirock }}{\fldrslt{https://www.patreon.com/zloirock\ul0\cf0}}}}\f0\fs22\par
+\par
+Also, the author of core-js ( {{\field{\*\fldinst{HYPERLINK https://github.com/zloirock }}{\fldrslt{https://github.com/zloirock\ul0\cf0}}}}\f0\fs22  ) is looking for a good job -)\par
+\par
+\par
+> core-js@2.6.11 postinstall C:\\Users\\Administrador\\Documents\\Jesus\\2021\\pluginaqiairquality\\node_modules\\core-js\par
+> node -e "try\{require('./postinstall')\}catch(e)\{\}"\par
+\par
+\par
+> ejs@3.1.3 postinstall C:\\Users\\Administrador\\Documents\\Jesus\\2021\\pluginaqiairquality\\node_modules\\ejs\par
+> node --harmony ./postinstall.js\par
+\par
+Thank you for installing EJS: built with the Jake JavaScript build tool ({{\field{\*\fldinst{HYPERLINK https://jakejs.com/ }}{\fldrslt{https://jakejs.com/\ul0\cf0}}}}\f0\fs22 )\par
+\par
+\par
+> nodemon@2.0.4 postinstall C:\\Users\\Administrador\\Documents\\Jesus\\2021\\pluginaqiairquality\\node_modules\\nodemon\par
+> node bin/postinstall || exit 0\par
+\par
+npm WARN plugin-aqi@1.0.0 No description\par
+npm WARN plugin-aqi@1.0.0 No repository field.\par
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@2.1.3 (node_modules\\nodemon\\node_modules\\fsevents):\par
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@2.1.3: wanted \{"os":"darwin","arch":"any"\} (current: \{"os":"win32","arch":"x64"\})\par
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@1.2.13 (node_modules\\fsevents):\par
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.2.13: wanted \{"os":"darwin","arch":"any"\} (current: \{"os":"win32","arch":"x64"\})\par
+\par
+added 494 packages from 209 contributors and audited 499 packages in 48.754s\par
+found 271 low severity vulnerabilities\par
+  run `npm audit fix` to fix them, or `npm audit` for details\par
+PS C:\\Users\\Administrador\\Documents\\Jesus\\2021\\pluginaqiairquality> npm  run dev\par
+\par
+> plugin-aqi@1.0.0 dev C:\\Users\\Administrador\\Documents\\Jesus\\2021\\pluginaqiairquality\par
+> nodemon src/index.js --exec babel-node\par
+\par
+[nodemon] 2.0.4\par
+[nodemon] to restart at any time, enter `rs`\par
+[nodemon] watching path(s): *.*\par
+[nodemon] watching extensions: js,mjs,json\par
+[nodemon] starting `babel-node src/index.js`\par
+Server on port 3000\par
+GET / 200 13.829 ms - 3569\par
+GET /favicon.ico 404 4.498 ms - 150\par
+GET /bermejales 200 5.766 ms - 20026\par
+GET /images/logo_v2.jpg 200 4.253 ms - 225465\par
+GET /images/familyyel.jpg 200 1.082 ms - 216909\par
+GET /images/depyel.jpg 200 1.409 ms - 246956\par
+GET /images/mayoresyel.jpg 200 1.292 ms - 356660\par
+GET /images/respirayel.jpg 200 2.586 ms - 213385\par
+GET /bermejales 200 5.313 ms - 20018\par
+GET /images/logo_v2.jpg 304 0.844 ms - -\par
+GET /images/depyel.jpg 304 1.447 ms - -\par
+GET /images/mayoresyel.jpg 304 2.553 ms - -\par
+GET /images/familyyel.jpg 304 2.950 ms - -\par
+GET /images/respirayel.jpg 304 1.765 ms - -\par
+GET /bermejales 304 4.939 ms - -\par
+GET /images/logo_v2.jpg 304 2.030 ms - -\par
+GET /images/depyel.jpg 304 1.680 ms - -\par
+GET /images/mayoresyel.jpg 304 4.799 ms - -\par
+GET /images/familyyel.jpg 304 8.775 ms - -\par
+GET /images/respirayel.jpg 304 10.888 ms - -\par
+GET /sofia 200 4.641 ms - 17082\par
+GET /images/logo_v2.jpg 304 1.688 ms - -\par
+GET /images/familygre.jpg 200 1.477 ms - 129156\par
+GET /images/depgre.jpg 200 1.493 ms - 249015\par
+GET /images/respiragre.jpg 200 1.431 ms - 211934\par
+GET /images/mayoresgre.jpg 200 1.423 ms - 386141\par
+GET /patra 200 6.424 ms - 19684\par
+GET /images/logo_v2.jpg 304 0.556 ms - -\par
+GET /images/familyred.jpg 200 1.549 ms - 125980\par
+GET /images/depred.jpg 200 1.625 ms - 231353\par
+GET /images/respirared.jpg 200 1.565 ms - 217968\par
+GET /images/mayoresred.jpg 200 1.533 ms - 390183\par
+GET /bermejales 304 4.840 ms - -\par
+GET /images/logo_v2.jpg 304 1.893 ms - -\par
+GET /images/depyel.jpg 304 1.326 ms - -\par
+GET /images/mayoresyel.jpg 304 4.795 ms - -\par
+GET /images/familyyel.jpg 304 7.087 ms - -\par
+GET /images/respirayel.jpg 304 7.836 ms - -\par
+GET /patra 304 3.479 ms - -\par
+GET /images/logo_v2.jpg 304 0.596 ms - -\par
+GET /images/depred.jpg 304 1.694 ms - -\par
+GET /images/mayoresred.jpg 304 5.890 ms - -\par
+GET /images/respirared.jpg 304 3.273 ms - -\par
+GET /images/familyred.jpg 304 4.157 ms - -\par
+\'bfDesea terminar el trabajo por lotes (S/N)? s\par
+PS C:\\Users\\Administrador\\Documents\\Jesus\\2021\\pluginaqiairquality> git init\par
+Initialized empty Git repository in C:/Users/Administrador/Documents/Jesus/2021/pluginaqiairquality/.git/\par
+PS C:\\Users\\Administrador\\Documents\\Jesus\\2021\\pluginaqiairquality> git add .\par
+PS C:\\Users\\Administrador\\Documents\\Jesus\\2021\\pluginaqiairquality> git commit -m "first commit"\par
+[master (root-commit) b4e1ea2] first commit\par
+ 28 files changed, 6697 insertions(+)\par
+ create mode 100644 .babelrc\par
+ create mode 100644 .gitignore\par
+ create mode 100644 LICENSE\par
+ create mode 100644 package-lock.json\par
+ create mode 100644 package.json\par
+ create mode 100644 src/index.js\par
+ create mode 100644 src/public/images/depgre.jpg\par
+ create mode 100644 src/public/images/depred.jpg\par
+ create mode 100644 src/public/images/depyel.jpg\par
+ create mode 100644 src/public/images/familygre.jpg\par
+ create mode 100644 src/public/images/familyred.jpg\par
+ create mode 100644 src/public/images/familyyel.jpg\par
+ create mode 100644 src/public/images/logo_v2.jpg\par
+ create mode 100644 src/public/images/mayoresgre.jpg\par
+ create mode 100644 src/public/images/mayoresred.jpg\par
+ create mode 100644 src/public/images/mayoresyel.jpg\par
+ create mode 100644 src/public/images/respiragre.jpg\par
+ create mode 100644 src/public/images/respirared.jpg\par
+ create mode 100644 src/public/images/respirayel.jpg\par
+ create mode 100644 src/public/js/helpers.js\par
+ create mode 100644 src/routes/index.js\par
+ create mode 100644 src/views/buscador/index.ejs\par
+ create mode 100644 src/views/index.ejs\par
+ create mode 100644 src/views/partials/_head.ejs\par
+ create mode 100644 src/views/partials/_header.ejs\par
+ create mode 100644 src/views/plugins/Bulgaria/Psofia_v2.ejs\par
+ create mode 100644 src/views/plugins/Grecia/Ppatra_v2.ejs\par
+ create mode 100644 src/views/plugins/Sevilla/Pbermejales_v4.ejs\par
+PS C:\\Users\\Administrador\\Documents\\Jesus\\2021\\pluginaqiairquality> git branch -M main\par
+PS C:\\Users\\Administrador\\Documents\\Jesus\\2021\\pluginaqiairquality> git remote add origin {{\field{\*\fldinst{HYPERLINK https://github.com/asalsan790/pluginaqiairquality.git }}{\fldrslt{https://github.com/asalsan790/pluginaqiairquality.git\ul0\cf0}}}}\f0\fs22\par
+PS C:\\Users\\Administrador\\Documents\\Jesus\\2021\\pluginaqiairquality> git push -u origin main\par
+info: please complete authentication in your browser...\par
+Enumerating objects: 42, done.\par
+Counting objects: 100% (42/42), done.\par
+Delta compression using up to 8 threads\par
+Compressing objects: 100% (35/35), done.\par
+Writing objects: 100% (42/42), 2.70 MiB | 2.62 MiB/s, done.\par
+Total 42 (delta 3), reused 0 (delta 0), pack-reused 0\par
+remote: Resolving deltas: 100% (3/3), done.\par
+To {{\field{\*\fldinst{HYPERLINK https://github.com/asalsan790/pluginaqiairquality.git }}{\fldrslt{https://github.com/asalsan790/pluginaqiairquality.git\ul0\cf0}}}}\f0\fs22\par
+ * [new branch]      main -> main\par
+Branch 'main' set up to track remote branch 'main' from 'origin'.\par
+PS C:\\Users\\Administrador\\Documents\\Jesus\\2021\\pluginaqiairquality> git add .\par
+PS C:\\Users\\Administrador\\Documents\\Jesus\\2021\\pluginaqiairquality> git commit -m "first commit"\par
+[main f206f32] first commit\par
+ 1 file changed, 12 insertions(+), 12 deletions(-)\par
+PS C:\\Users\\Administrador\\Documents\\Jesus\\2021\\pluginaqiairquality> git push -u origin main\par
+Enumerating objects: 11, done.\par
+Counting objects: 100% (11/11), done.\par
+Delta compression using up to 8 threads\par
+Compressing objects: 100% (5/5), done.\par
+Writing objects: 100% (6/6), 601 bytes | 601.00 KiB/s, done.\par
+Total 6 (delta 2), reused 0 (delta 0), pack-reused 0\par
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.\par
+To {{\field{\*\fldinst{HYPERLINK https://github.com/asalsan790/pluginaqiairquality.git }}{\fldrslt{https://github.com/asalsan790/pluginaqiairquality.git\ul0\cf0}}}}\f0\fs22\par
+   b4e1ea2..f206f32  main -> main\par
+Branch 'main' set up to track remote branch 'main' from 'origin'.\par
+PS C:\\Users\\Administrador\\Documents\\Jesus\\2021\\pluginaqiairquality>\par
+}
+ 

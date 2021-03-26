@@ -1,0 +1,287 @@
+<!Doctype html>
+<html lang="en">
+    <head>
+        <!-- Plugin created by María Vico Martín in 2º ASIR of IES Punta del Verde in Seville -->
+        <title>Plugin Chania</title>
+        <%- include('../../partials/_head'); -%>
+    </head>
+    <body>
+        <header>
+            <%- include('../../partials/_header'); -%>
+        </header>
+        <main>
+            <div class="col-md-2"> 
+                <table class="table table-bordered d" >
+                    <thead>
+                        <th colspan="4" >
+                            <span data-toggle="tooltip" id="author">
+                                <center><b>AIR QUALITY<a href='https://github.com/MVico21/Pluginaqi' target="_blank" >*</a></b></center>
+                            </span>
+                        </th>                        <tr>
+                            <td colspan="4"><div align='center'><img src="images/logo_v2.jpg" width="100%" height="40%" ></div></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" id="city" style="text-align: center; padding-top:20px; white-space: nowrap"></td>
+                            <th colspan="2"> <div id="estado" style="text-align: center; font-size:115%; white-space: nowrap;"> </div> <div id="fecha" style="text-align: center; font-size:95%;"></div> </th>
+                        </tr>
+                    </thead>
+                    <tbody id="myTable">
+                        <th colspan="4" style="text-align: center ; font-size:300%; margin:30px; padding:30px;" id="cmax">
+                            <!-- Tooltip (pop-up) in table format with the value of the indexes (legend) -->
+                            <span data-toggle="tooltip"  id="max"></span>
+                        </th>
+                        <tr>
+                            <!-- Tooltip with information on the different pollutants -->
+                            <th style="text-align: center;  font-size: 86%; white-space: nowrap">
+                                <span data-toggle="tooltip" data-html="true" title="SO<sub>2</sub> can affect the respiratory system, increasing 
+                                the propensity for its infections, causing cough, mucous discharge, eye irritation and worsening of asthma and chronic bronchitis. Hospital admissions 
+                                for heart disease and mortality increase on days when SO<sub>2</sub> levels are highest. In combination with water, it is the main component of acid 
+                                rain that causes deforestation..">
+                                    SO<sub>2</sub>*
+                                </span>
+                            </th>
+                            <th style="text-align: center;  font-size: 86%; white-space: nowrap"> 
+                                <span data-toggle="tooltip" data-html="true" title="The continued exposure of NO <sub> 2 </sub> causes various diseases of the
+                                respiratory tract such as decreased lung capacity, acute bronchitis, asthma and is considered to be the culprit in allergic processes, especially in children.
+                                In addition, the symptoms of bronchitis in asthmatic children increase in relation to said exposure.">
+                                    NO<sub>2</sub>*
+                                </span>
+                            </th>
+                            <th style="text-align: center;  font-size: 86%; white-space: nowrap"> 
+                                <span data-toggle="tooltip" title="Exposure to these particles can affect both the lungs and the heart due to their
+                                small size; contributes to the risk of developing cardiovascular and respiratory diseases, as well as lung cancer. It mostly affects people with
+                                heart or lung disease, children and older adults. ">
+                                    PM <sub>10</sub>*
+                                </span>
+                            </th>
+                            <th style="text-align: center;  font-size: 86%; white-space: nowrap"> 
+                                <span data-toggle="tooltip"  title="The size of these particles make them 100% breathable, penetrating into the respiratory
+                                system and depositing itself in the pulmonary alveoli, they can even reach the bloodstream. Furthermore, these smaller particles are made up of elements 
+                                that are more toxic (such as heavy metals). Chronic particle exposure contributes to the risk of developing cardiovascular and respiratory diseases, 
+                                as well as lung cancer.">
+                                    PM<sub>2.5</sub>*
+                                </span>
+                            </th>
+                        </tr>
+                        <tr>
+                            <!-- We paint the contaminants with their color -->
+                            <td id="so2" style="text-align: center;"></td>
+                            <td id="no2" style="text-align: center;"> </td>
+                            <td id="pm10" style="text-align: center;"> </td>
+                            <td id="pm25" style="text-align: center;"> </td>
+                        </tr>
+                        <tr>
+                            <!-- We paint the contaminants with their color -->
+                            <td id="dep"  style="padding:0px;"> </td>
+                            <td id="mayores" style="padding:0px;"> </td>
+                            <td id="family" style="padding:0px;"> </td>
+                            <td id="respira" style="padding:0px;"> </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+
+
+        <script>
+            /*We use fetch to make a request to the rest api and thus get the data*/
+            fetch('https://api.waqi.info/feed/@12410/?token=43b146051093d2a179f84802c061870088a7ce91')
+                .then(response => response.json())
+                .then(json =>{
+    
+                        // We get the time of the api rest and separate this into day, month and time
+                        var time = json.data.time.s
+                        var dia = time.slice(8,-9)
+                        var hora = time.slice(-9,-3)
+                        // After having the numerical value of the month, we pass it to its alphabetical form 
+                        var fecha = new Date(time.slice(0,-9))
+                        var meses = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    
+                        // We obtain the variable with the value of the place of the json measurement
+                        var city = json.data.city.name
+                        var city0 = city.slice(0,7)
+                        var city1 = city.slice(9)
+                        
+                        /*We round to avoid decimals, and we calculate the absolute value of the contaminate (index),
+                          to be able to compare them among them and assign according to this (index) the color; We will do this with everyone.*/
+    
+                        // SO2
+                        var so2 = Math.round(json.data.iaqi.so2.v) 
+                        var iso2 = so2 / 20
+                        if (iso2 > 0.75 && iso2 <= 1) {
+                            var cso2 = '#ffff4d'
+                            var eso2 = 'Bad'
+                        } else if (iso2 > 1) {
+                            var cso2 = 'firebrick'
+                            var eso2 = 'Dangerous'
+                        } else {
+                            var cso2 = '#89d571'
+                            var eso2 = 'Good'
+                        }
+    
+                        // NO2
+                        var no2 = Math.round(json.data.iaqi.no2.v)
+                        var ino2 = no2 / 40
+                        if (ino2 > 0.75 && ino2 <= 1) {
+                            var cno2 = '#ffff4d'
+                            var eno2 = 'Bad'
+                        } else if (ino2 > 1) {
+                            var cno2 = 'firebrick'
+                            var eno2 = 'Dangerous'
+                        } else {
+                            var cno2 = '#89d571'
+                            var eno2 = 'Good'
+                        }
+                        
+                        //PM10
+                        var pm10 = Math.round(json.data.iaqi.pm10.v )
+                        var ipm10 = pm10 / 50
+                        if (ipm10 > 0.7 && ipm10 <= 1) {
+                            var cpm10 = '#ffff4d'
+                            var epm10 = 'Bad'
+                        } else if (ipm10 > 1) {
+                            var cpm10 = 'firebrick'
+                            var epm10 = 'Dangerous'
+                        } else {
+                            var cpm10 = '#89d571'
+                            var epm10 = 'Good'
+                        }
+    
+                        // PM2.5
+                        var pm25 = Math.round(json.data.iaqi.pm25.v)
+                        var ipm25 = pm25 / 25
+                        if (ipm25 > 0.8 && ipm25 <= 1) {
+                            var cpm25 = '#ffff4d'
+                            var epm25 = 'Bad'
+                        } else if (ipm25 > 1) {
+                            var cpm25 = 'firebrick'
+                            var epm25 = 'Dangerous'
+                        } else {
+                            var cpm25 = '#89d571'
+                            var epm25 = 'Good'
+                        }
+    
+                        // We calculate which pollutant has a higher value index
+                        var all = [iso2,ino2,ipm10,ipm25]
+                        var max =  Math.max(...all)
+    
+                        /* We obtain the position of the pollutant that has the highest value according to its 
+                        index for then take the relative value of said pollutant*/
+                        var n = all.indexOf(max)
+                        switch(n) {
+                            case 0:
+                                var maximo = so2
+                                var color = cso2
+                                var estado = eso2
+                                break;
+                            case 1:
+                                var maximo = no2
+                                var color = cno2
+                                var estado = eno2
+                                break;
+                            case 2:
+                                var maximo = pm10
+                                var color = cpm10
+                                var estado = epm10
+                            break;
+                            case 3:
+                                var maximo = pm25
+                                var color = cpm25
+                                var estado = epm25
+                            break;
+                            }
+                        
+                        // We paint all the data previously obtained in the html (table) by id and we paint the assigned styles (colors)
+                        document.getElementById("so2").innerHTML = so2;
+                        document.getElementById("so2").style.backgroundColor = cso2;
+    
+                        document.getElementById("no2").innerHTML = no2;
+                        document.getElementById("no2").style.backgroundColor = cno2;
+    
+                        document.getElementById("pm10").innerHTML = pm10;
+                        document.getElementById("pm10").style.backgroundColor = cpm10;
+    
+                        document.getElementById("pm25").innerHTML = pm25;
+                        document.getElementById("pm25").style.backgroundColor = cpm25;
+                        
+                        document.getElementById("max").innerHTML = maximo + '*';
+                        document.getElementById("cmax").style.backgroundColor = color;
+                        document.getElementById("estado").innerHTML = estado  ; 
+    
+                        document.getElementById("fecha").innerHTML = dia + ' de ' + meses[fecha.getMonth()] + "<br/>" + hora  ; 
+                        document.getElementById("city").innerHTML = city0 + "<br/>" +' (' + city1 + ')';
+                                    
+                        // We select the recommendation icons and their messages according to the color of the maximum value
+                        if (color=='#89d571') {
+                            document.getElementById("dep").innerHTML = '<img src="images/depgre.jpg" width="100%" height="83" title="Good time to play sports"/>';
+                            document.getElementById("mayores").innerHTML = '<img src="images/mayoresgre.jpg"  width="100%" height="83" title="Good time for a walk"/>';
+                            document.getElementById("family").innerHTML = '<img src="images/familygre.jpg"   width="100%" height="83" title="Good time to go out"/>';
+                            document.getElementById("respira").innerHTML = '<img src="images/respiragre.jpg" width="100%" height="83" title="Good time to enjoy the outdoors"/>';
+                        } else if (color=='#ffff4d') {
+                            document.getElementById("dep").innerHTML = '<img src="images/depyel.jpg" width="100%" height="83" title="Play sports in green areas"/>';
+                            document.getElementById("mayores").innerHTML = '<img src="images/mayoresyel.jpg"  width="100%" height="83" title="Stroll through green areas"/>';
+                            document.getElementById("family").innerHTML = '<img src="images/familyyel.jpg"   width="100%" height="83" title="Stroll through wooded areas"/>';
+                            document.getElementById("respira").innerHTML = '<img src="images/respirayel.jpg" width="100%" height="83" title="Avoid intense physical activity outdoors"/>';
+                        } else if (color=='firebrick') {
+                            document.getElementById("dep").innerHTML = '<img src="images/depred.jpg" width="100%" height="83" title="Do not practice sports outdoors"/>';
+                            document.getElementById("mayores").innerHTML = '<img src="images/mayoresred.jpg"  width="100%" height="83" title="This is not a good time to walk"/>';
+                            document.getElementById("family").innerHTML = '<img src="images/familyred.jpg"   width="100%" height="83" title="Better stay home"/>';
+                            document.getElementById("respira").innerHTML = '<img src="images/respirared.jpg" width="100%" height="83" title="Do not go out if you have breathing problems"/>';
+                        }     
+            })
+                
+            // Tooltip (pop-up) 
+            $(document).ready(function() {
+                $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+            });
+
+            $('#author').tooltip({ html: true, placement: 'bottom', sanitize: false, title:
+            `<font color='blue'> Autora: María Vico Martín </font><br><font size=1>GNU General Public License</font>`
+            })
+
+            $('#max').tooltip({ html: true, placement: 'top', sanitize: false, title: `
+            <table border='2' >
+                <tr> 
+                    <td colspan='4'>
+                            <b>WHO maximum values: </b><br>
+                            SO<sub>2</sub>: 20 μg/m<sup>3</sup> average in 24h <br>
+                            NO<sub>2</sub>: 40 μg/m<sup>3</sup> annual average <br>
+                            PM<sub>10</sub>: 50 μg/m<sup>3</sup> average in 24h  <br>
+                             PM<sub>2.5</sub>: 25 μg/m<sup>3</sup> average in 24h <br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>SO<sub>2</sub></td>
+                    <td bgcolor='#89d571'>&lt;15</td>
+                    <td bgcolor='#ffff4d'>&lt;=20</td>
+                    <td bgcolor='#FF0040'>&gt;20</td>
+                </tr>
+                <tr>
+                    <td>NO<sub>2</sub></td>
+                    <td bgcolor='#89d571'>&lt;30</td>
+                    <td bgcolor='#ffff4d'>&lt;=40</td>
+                    <td bgcolor='#FF0040'&gt;>40</td>
+                </tr>
+                <tr>
+                    <td>PM<sub>10</sub></td>
+                    <td bgcolor='#89d571'>&lt;35</td>
+                    <td bgcolor='#ffff4d'>&lt;=50</td>
+                    <td bgcolor='#FF0040'>&gt;50</td>
+                </tr>
+                <tr>
+                    <td>PM<sub>2.5</sub></td>
+                    <td bgcolor='#89d571'>&lt;20</td>
+                    <td bgcolor='#ffff4d'>&lt;=25</td>
+                    <td bgcolor='#FF0040'>&gt;25</td>
+                </tr>
+            <table>`
+            })
+
+
+        </script>
+    </body>
+</html>
+
+
+        

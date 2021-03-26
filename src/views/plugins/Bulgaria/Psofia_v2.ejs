@@ -1,0 +1,246 @@
+<!Doctype html>
+<html lang="en">
+    <head>
+        <!-- Plugin created by María Vico Martín in 2º ASIR of IES Punta del Verde in Seville with GNU GENERAL PUBLIC LICENSE-->
+        <title>Plugin Sofia</title>
+        <%- include('../../partials/_head'); -%>
+    </head>
+    <body>
+        <header>
+            <%- include('../../partials/_header'); -%>
+        </header>
+        <main>
+            <div class="col-md-2"> 
+                <table class="table table-bordered d" >
+                    <thead>
+                        <th colspan="4" >
+                            <span data-toggle="tooltip" id="author">
+                                <center><b>AIR QUALITY<a href='https://github.com/MVico21/Pluginaqi' target="_blank" >*</a></b></center>
+                            </span>
+                        </th>
+                        <tr>
+                            <td colspan="4"><div align='center'><img src="images/logo_v2.jpg" width="100%" height="40%" ></div></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" id="city" style="text-align: center; padding-top:20px; white-space: nowrap;"></td>
+                            <th colspan="2"> <div id="estado" style="text-align: center; font-size:115%; white-space: nowrap;"> </div> <div id="fecha" style="text-align: center; font-size:95%;"></div> </th>
+                        </tr>
+                    </thead>
+                    <tbody id="myTable">
+                        <th colspan="4" style="text-align: center ; font-size:300%; margin:30px; padding:30px;" id="cmax">
+                            <!-- Tooltip (pop-up) in table format with the value of the indexes (legend) -->
+                            <span data-toggle="tooltip" id="max"></span>
+                        </th>
+                        <tr>
+                            <!-- Tooltip with information on the different pollutants -->
+                            <th style="text-align: center; white-space: nowrap;"> 
+                                <span data-toggle="tooltip" data-html="true" title="The continued exposure of NO <sub> 2 </sub> causes various diseases of the
+                                respiratory tract such as decreased lung capacity, acute bronchitis, asthma and is considered to be the culprit in allergic processes, especially in children.
+                                In addition, the symptoms of bronchitis in asthmatic children increase in relation to said exposure.">
+                                    NO<sub>2</sub>*
+                                </span>
+                            </th>
+                            <th style="text-align: center; white-space: nowrap;" colspan="2"> 
+                                <span data-toggle="tooltip" title="Exposure to these particles can affect both the lungs and the heart due to their
+                                small size; contributes to the risk of developing cardiovascular and respiratory diseases, as well as lung cancer. It mostly affects people with
+                                heart or lung disease, children and older adults. "> 
+                                    PM <sub>10</sub>*
+                                </span>
+                            </th>
+                            <th style="text-align: center; white-space: nowrap;"  > 
+                                <span data-toggle="tooltip" title="Too much ozone in the air can cause breathing problems, cause asthma, reduce lung function, 
+                                and lead to lung disease. The highest ozone levels are recorded during periods of sunny weather.">
+                                    O<sub>3</sub>*
+                                </span>
+                            </th>
+                        </tr>
+                        <tr>
+                            <!-- We paint the contaminants with their color -->
+                            <td id="no2" style="text-align: center;"> </td>
+                            <td id="pm10" colspan="2" style="text-align: center;"> </td>
+                            <td id="o3"  style="text-align: center;"> </td>
+                        </tr>
+                        <tr>
+                            <!-- We paint the contaminants with their color -->
+                            <td id="dep"  style="padding:0px;"> </td>
+                            <td id="mayores" style="padding:0px;"> </td>
+                            <td id="family" style="padding:0px;"> </td>
+                            <td id="respira" style="padding:0px;"> </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+
+        <script>
+            /*We use fetch to make a request to the rest api and thus get the data*/
+            fetch('https://api.waqi.info/feed/@8084/?token=43b146051093d2a179f84802c061870088a7ce91')
+                .then(response => response.json())
+                .then(json =>{
+    
+                        // We get the time of the api rest and separate this into day, month and time
+                        var time = json.data.time.s
+                        var dia = time.slice(8,-9)
+                        var hora = time.slice(-9,-3)
+                        // After having the numerical value of the month, we pass it to its alphabetical form 
+                        var fecha = new Date(time.slice(0,-9))
+                        var meses = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    
+                        // We obtain the variable with the value of the place of the json measurement
+                        var city = json.data.city.name
+                        var city0 = city.slice(0,7)
+                        var city1 = city.slice(9,14)
+    
+                        /*We round to avoid decimals, and we calculate the absolute value of the contaminate (index),
+                          to be able to compare them among them and assign according to this (index) the color; We will do this with everyone.*/
+    
+                        // NO2
+                        var no2 = Math.round(json.data.iaqi.no2.v)
+                        var ino2 = no2 / 40
+                        if (ino2 > 0.75 && ino2 <= 1) {
+                            var cno2 = '#ffff4d'
+                            var eno2 = 'Bad'
+                        } else if (ino2 > 1) {
+                            var cno2 = 'firebrick'
+                            var eno2 = 'Dangerous'
+                        } else {
+                            var cno2 = '#89d571'
+                            var eno2 = 'Good'
+                        }
+                        
+                        //PM10
+                        var pm10 = Math.round(json.data.iaqi.pm10.v )
+                        var ipm10 = pm10 / 50
+                        if (ipm10 > 0.7 && ipm10 <= 1) {
+                            var cpm10 = '#ffff4d'
+                            var epm10 = 'Bad'
+                        } else if (ipm10 > 1) {
+                            var cpm10 = 'firebrick'
+                            var epm10 = 'Dangerous'
+                        } else {
+                            var cpm10 = '#89d571'
+                            var epm10 = 'Good'
+                        }
+    
+                        // O3
+                        var o3 = Math.round(json.data.iaqi.o3.v)
+                        var io3 = o3 / 100
+                        if (io3 > 0.75 && io3 <= 1) {
+                            var co3 = '#ffff4d'
+                            var eo3 = 'Bad'
+                        } else if (io3 > 1) {
+                            var co3 = 'firebrick'
+                            var eo3 = 'Dangerous'
+                        } else {
+                            var co3 = '#89d571'
+                            var eo3 = 'Good'
+                        }
+    
+                        // We calculate which pollutant has a higher value index
+                        var all = [ino2,ipm10,io3]
+                        var max =  Math.max(...all)
+    
+                        /* We obtain the position of the pollutant that has the highest value according to its 
+                        index for then take the relative value of said pollutant*/
+                        var n = all.indexOf(max)
+                        switch(n) {
+                            case 0:
+                                var maximo = no2
+                                var color = cno2
+                                var estado = eno2
+                                break;
+                            case 1:
+                                var maximo = pm10
+                                var color = cpm10
+                                var estado = epm10
+                                break;
+                            case 2:
+                                var maximo = o3
+                                var color = co3
+                                var estado = eo3
+                                break;
+                            }
+                        
+    
+                        // We paint all the data previously obtained in the html (table) by id and we paint the assigned styles (colors)
+                        document.getElementById("no2").innerHTML = no2;
+                        document.getElementById("no2").style.backgroundColor = cno2;
+    
+                        document.getElementById("pm10").innerHTML = pm10;
+                        document.getElementById("pm10").style.backgroundColor = cpm10;
+    
+                        document.getElementById("o3").innerHTML = o3;
+                        document.getElementById("o3").style.backgroundColor = co3;
+                        
+                        document.getElementById("max").innerHTML = maximo + '*';
+                        document.getElementById("cmax").style.backgroundColor = color;
+                        document.getElementById("estado").innerHTML = estado  ; 
+    
+                        document.getElementById("fecha").innerHTML = dia + ' de ' + meses[fecha.getMonth()] + "<br/>" + hora  ; 
+                        document.getElementById("city").innerHTML = city0 + '<br/>' +' (' + city1 + ')';
+                                    
+                        // We select the recommendation icons and their messages according to the color of the maximum value
+                        if (color=='#89d571') {
+                            document.getElementById("dep").innerHTML = '<img src="images/depgre.jpg" width="100%" height="83" title="Good time to play sports"/>';
+                            document.getElementById("mayores").innerHTML = '<img src="images/mayoresgre.jpg"  width="100%" height="83" title="Good time for a walk"/>';
+                            document.getElementById("family").innerHTML = '<img src="images/familygre.jpg"   width="100%" height="83" title="Good time to go out"/>';
+                            document.getElementById("respira").innerHTML = '<img src="images/respiragre.jpg" width="100%" height="83" title="Good time to enjoy the outdoors"/>';
+                        } else if (color=='#ffff4d') {
+                            document.getElementById("dep").innerHTML = '<img src="images/depyel.jpg" width="100%" height="83" title="Play sports in green areas"/>';
+                            document.getElementById("mayores").innerHTML = '<img src="images/mayoresyel.jpg"  width="100%" height="83" title="Stroll through green areas"/>';
+                            document.getElementById("family").innerHTML = '<img src="images/familyyel.jpg"   width="100%" height="83" title="Stroll through wooded areas"/>';
+                            document.getElementById("respira").innerHTML = '<img src="images/respirayel.jpg" width="100%" height="83" title="Avoid intense physical activity outdoors"/>';
+                        } else if (color=='firebrick') {
+                            document.getElementById("dep").innerHTML = '<img src="images/depred.jpg" width="100%" height="83" title="Do not practice sports outdoors"/>';
+                            document.getElementById("mayores").innerHTML = '<img src="images/mayoresred.jpg"  width="100%" height="83" title="This is not a good time to walk"/>';
+                            document.getElementById("family").innerHTML = '<img src="images/familyred.jpg"   width="100%" height="83" title="Better stay home"/>';
+                            document.getElementById("respira").innerHTML = '<img src="images/respirared.jpg" width="100%" height="83" title="Do not go out if you have breathing problems"/>';
+                        }     
+            })
+                
+            // Tooltip (pop-up) 
+            $(document).ready(function() {
+                $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+            });
+
+            $('#author').tooltip({ html: true, placement: 'bottom', sanitize: false, title:
+            `<font color='blue'> Autora: María Vico Martín </font><br><font size=1>GNU General Public License</font>`
+            })
+            $('#max').tooltip({ html: true, placement: 'top', sanitize: false, title: `
+            <table border='2' >
+                <tr> 
+                    <td colspan='4'>
+                        <b>WHO maximum values: </b><br>
+                        NO<sub>2</sub>: 40 μg/m<sup>3</sup> annual average <br>
+                        PM<sub>10</sub>: 50 μg/m<sup>3</sup> average in 24h  <br>
+                        O<sub>3</sub>: 100 μg/m<sup>3</sup> average in 8h <br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>NO<sub>2</sub></td>
+                    <td bgcolor='#89d571'>&lt;30</td>
+                    <td bgcolor='#ffff4d'>&lt;=40</td>
+                    <td bgcolor='#FF0040'&gt;>40</td>
+                </tr>
+                <tr>
+                    <td>PM<sub>10</sub></td>
+                    <td bgcolor='#89d571'>&lt;35</td>
+                    <td bgcolor='#ffff4d'>&lt;=50</td>
+                    <td bgcolor='#FF0040'>&gt;50</td>
+                </tr>
+                <tr>
+                    <td>O<sub>3</sub></td>
+                    <td bgcolor='#89d571'>&lt;75</td>
+                    <td bgcolor='#ffff4d'>&lt;=100</td>
+                    <td bgcolor='#FF0040'>&gt;100</td>
+                </tr>
+            <table>`
+            })
+
+        </script>
+    </body>
+</html>
+
+
+        
